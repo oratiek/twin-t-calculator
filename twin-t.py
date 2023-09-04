@@ -36,11 +36,6 @@ def calc(R, C):
     freq = 1 / (2*PI * R * C)
     return freq
 
-# 可能性のある抵抗値を複数用意して、それぞれに対して所有しているコンデンサの容量で計算して周波数をソートして並べる
-# 自分の持っている抵抗やコンデンサの容量を持たせておくのは賢いかもしれない
-# 自分の作れる周波数のパターンがすぐにわかる様になる
-# 自分の持っている部品を扱う専用のモジュール的なのがあれば良いかも
-
 def load_parts(path):
     parts = []
     if os.path.exists(path):
@@ -62,14 +57,13 @@ for R in registers:
         freq = (calc(R, C))
         freqs["{}:{}".format(R,C)] = freq
 
-# 任意の周波数に近いものを検索できる様にする
 try:
     target_freq = sys.argv[1]
 except IndexError:
     print("You need to specify target frequency")
     sys.exit(0)
 print("target_freq:", target_freq)
-# ゆるす差分を決める (1kHzまで)
+# ゆるす差分を決める (500Hzまで)
 print("{:^20} {:^15} {:^10}".format("freq", "R", "C"))
 for key in freqs.keys():
     freq = freqs[key]
