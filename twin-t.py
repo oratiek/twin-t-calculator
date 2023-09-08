@@ -2,14 +2,10 @@ import os
 import sys
 import math
 import numpy as np
+sys.path.append("../")
+from core.utils import *
 
 PI = math.pi
-
-def test():
-    vals = ["10k", "10M", "10G", "0.1u", "1u", "47n", "100p"]
-
-    for val in vals:
-        print(unit2num(val))
 
 def unit2num(val):
     convert_table = {
@@ -36,20 +32,9 @@ def calc(R, C):
     freq = 1 / (2*PI * R * C)
     return freq
 
-def load_parts(path):
-    parts = []
-    if os.path.exists(path):
-        with open(path, "r") as f:
-            for row in f.readlines():
-                row = row.strip("\n")
-                for val in row.split(","):
-                    parts.append(val)
-    else:
-        return False
-    return parts
-
-registers = load_parts("src/registers.txt")
-capacitors = load_parts("src/capacitors.txt")
+stock = PartsStock()
+registers = stock.registers()
+capacitors = stock.capacitors()
 
 freqs = {}
 for R in registers:
